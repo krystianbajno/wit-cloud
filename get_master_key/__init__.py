@@ -12,16 +12,14 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     if not session:
         return func.HttpResponse(
-            '{"error": "Invalid token"}',
-             status_code=403
+            json.dumps({"error": "Invalid token"}),
+            status_code=403
         )
 
+    # azure key vault injection
     master_key = os.environ["MASTER_PASSWORD_FOR_ENCRYPTION"]
-    response = {
-        "master_key": master_key
-    }
 
     return func.HttpResponse(
-        json.dumps(response),
+        json.dumps({"master_key": master_key}),
         status_code=200
     )

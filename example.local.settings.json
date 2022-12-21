@@ -1,0 +1,13 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "baycode7storage7account_STORAGE": "",
+    "USER":"bajno",
+    "TOKEN_PASSWORD":"mock_Just_An_Authorized_Hash12#",
+    "MASTER_PASSWORD_FOR_ENCRYPTION": "Azure Key Vault Injection",
+    "ENDPOINT_LOGIN": "",
+    "ENDPOINT_MASTER": ""
+  }
+}

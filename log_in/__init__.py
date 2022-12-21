@@ -20,15 +20,15 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     if not entity:
         return func.HttpResponse(
-            '{"error": "Invalid user"}',
-             status_code=401
+            json.dumps({"error": "Invalid credentials"}),
+            status_code=403
         )
 
     entity_password = base64.b64decode(entity["password"])
     if not bcrypt.hashpw(body["password"].encode(), entity_password) == entity_password:
         return func.HttpResponse(
-             '{"error": "Enter password"}',
-             status_code=400
+            json.dumps({"error": "Invalid credentials"}),
+            status_code=403
         )
 
     s = hashlib.sha256(str(random.random()).encode()).hexdigest()
@@ -37,12 +37,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         "RowKey": s,
         "expires": (date.today() + timedelta(days=2)).strftime('%Y/%m/%d')
     })
-    
-    response = {
-        "token": s
-    }
 
     return func.HttpResponse(
-        json.dumps(response),
+        json.dumps({"token": s}),
         status_code=200
     )

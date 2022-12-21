@@ -1,4 +1,5 @@
 import subprocess
+import os
 
 def get_token(user, password):
   proc = subprocess.Popen(["python", "./master_key_client.py", "--user", user],
@@ -21,11 +22,15 @@ def setup_crypt_volume(password, volume, letter):
 
 def setup_smb(name, path, permissions):
   proc = subprocess.Popen(["net", "share", f"{name}={path}", f"/GRANT:{permissions}"])
+  proc.wait()
 
 
 def main():
   print("[*] Running subprocess, fetching token")
-  token = get_token("bajno", "Just_An_Authorized_Hash12#")
+  token = get_token(
+    os.environ["USER"], 
+    os.environ["TOKEN_PASSWORD"]
+  )
   print(f"+ {token}")
 
   print("[*] Running subprocess, setting up volume")

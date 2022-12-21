@@ -1,6 +1,7 @@
 import requests
 import argparse
 import json
+import os
 
 def main():
   parser = argparse.ArgumentParser(
@@ -19,7 +20,7 @@ def main():
   password = input("password > ")
 
   print(f"[*] authenticating {user}" )
-  token = requests.post("https://baycodeazurefunctionapp.azurewebsites.net/api/log_in", json={
+  token = requests.post(os.environ["ENDPOINT_LOGIN"], json={
     "user": user,
     "password": password
   })
@@ -27,11 +28,10 @@ def main():
   
   print("+ authenticated\ntoken: {token}".format(token=token))
 
-  master_key = requests.get("https://baycodeazurefunctionapp.azurewebsites.net/api/get_master_key?token={token}"
-    .format(token=token))
+  master_key = requests.get(os.environ["ENDPOINT_MASTER"] + f"?token={token}")
 
   master_key = json.loads(str(master_key.content.decode()))["master_key"]
-  print("+ master_key:\n{master_key}".format(master_key=master_key))
+  print(f"+ master_key:\n{master_key}")
 
 if __name__ == "__main__":
   main()
